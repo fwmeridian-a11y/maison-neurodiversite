@@ -7,6 +7,17 @@ const STORAGE_KEY = "nd_responses_v1";
 const SYNTHESE_PASSCODE = "neurodiv2026";
 const SYNTHESE_AUTH_KEY = "nd_synthese_auth";
 
+// URL du Google Apps Script (Web App) qui centralise les réponses de
+// toutes les personnes interrogées, où qu'elles répondent. À remplacer
+// par l'URL de déploiement une fois le script Google configuré (voir
+// SETUP_GOOGLE_SHEETS.md). Tant qu'elle contient "REMPLACER", le site
+// continue de fonctionner uniquement en local (comme avant).
+const SYNC_URL = "REMPLACER_PAR_URL_APPS_SCRIPT";
+
+function isSyncConfigured() {
+  return typeof SYNC_URL === "string" && SYNC_URL && !SYNC_URL.includes("REMPLACER");
+}
+
 function loadResponses() {
   try {
     return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
@@ -21,13 +32,54 @@ function saveResponses(list) {
 
 function addResponse(questionnaireId, answers) {
   const list = loadResponses();
-  list.push({
+  const response = {
     id: "r_" + Date.now() + "_" + Math.random().toString(36).slice(2, 8),
     questionnaire: questionnaireId,
     date: new Date().toISOString(),
     answers
-  });
+  };
+  list.push(response);
   saveResponses(list);
+  syncResponseToSheet(response);
+}
+
+// Envoie la réponse au Google Sheet central (best-effort : en cas
+// d'échec — pas de réseau, URL non configurée — la réponse reste de
+// toute façon déjà sauvegardée en local ci-dessus).
+function syncResponseToSheet(response) {
+  if (!isSyncConfigured()) return;
+  fetch(SYNC_URL, {
+    method: "POST",
+    // text/plain évite le préflight CORS que les Web Apps Apps Script
+    // ne gèrent pas ; le contenu envoyé reste bien du JSON.
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify(response)
+  }).catch(() => {});
+}
+
+// Récupère toutes les réponses déjà centralisées sur le Google Sheet
+// et les fusionne (sans doublons) dans le stockage local, pour que la
+// Synthèse affiche aussi les réponses données depuis d'autres appareils.
+async function syncFromSheet() {
+  if (!isSyncConfigured()) return;
+  try {
+    const res = await fetch(SYNC_URL);
+    const remote = await res.json();
+    if (!Array.isArray(remote)) return;
+    const current = loadResponses();
+    const existingIds = new Set(current.map((r) => r.id));
+    let added = 0;
+    remote.forEach((r) => {
+      if (r && r.id && !existingIds.has(r.id)) {
+        current.push(r);
+        existingIds.add(r.id);
+        added++;
+      }
+    });
+    if (added) saveResponses(current);
+  } catch (e) {
+    // Pas de réseau ou script indisponible : on reste sur les données locales.
+  }
 }
 
 // =====================================================================
@@ -88,7 +140,13 @@ function render() {
     renderForm(app, qid);
   } else if (hash === "#/synthese") {
     if (sessionStorage.getItem(SYNTHESE_AUTH_KEY) === "1") {
-      renderSynthese(app);
+      renderSyntheseLoading(app);
+      syncFromSheet().finally(() => {
+        if ((window.location.hash || "#/") !== "#/synthese") return;
+        const freshApp = document.getElementById("app");
+        freshApp.innerHTML = "";
+        renderSynthese(freshApp);
+      });
     } else {
       renderSyntheseGate(app);
     }
@@ -421,6 +479,23 @@ function renderSyntheseGate(app) {
   });
 }
 
+function renderSyntheseLoading(app) {
+  const header = document.createElement("header");
+  header.className = "topbar";
+  header.innerHTML = `
+    <h1>Synthèse des réponses</h1>
+    <button class="btn" id="backHome">← Accueil</button>
+  `;
+  app.appendChild(header);
+
+  const box = document.createElement("div");
+  box.className = "empty-state";
+  box.innerHTML = `<p>${isSyncConfigured() ? "Récupération des réponses centralisées…" : "Chargement…"}</p>`;
+  app.appendChild(box);
+
+  document.getElementById("backHome").addEventListener("click", () => navigate("#/"));
+}
+
 function renderSynthese(app) {
   const responses = loadResponses();
 
@@ -436,6 +511,7 @@ function renderSynthese(app) {
   const exportBar = document.createElement("div");
   exportBar.className = "export-bar";
   exportBar.innerHTML = `
+    ${isSyncConfigured() ? '<button class="btn" id="refreshSync">🔄 Recharger depuis Google Sheets</button>' : ""}
     <button class="btn" id="exportAllJson">⬇️ Exporter tout (JSON)</button>
     <label class="btn" style="cursor:pointer;">
       ⬆️ Importer / fusionner (JSON)
@@ -444,6 +520,14 @@ function renderSynthese(app) {
     <button class="btn" id="resetAll" style="color:#C0392B;">🗑 Réinitialiser toutes les données</button>
   `;
   app.appendChild(exportBar);
+  if (!isSyncConfigured()) {
+    const note = document.createElement("p");
+    note.style.color = "var(--muted)";
+    note.style.fontSize = "0.8rem";
+    note.style.marginTop = "-4px";
+    note.textContent = "Synchronisation centrale non configurée : seules les réponses saisies sur cet appareil sont affichées.";
+    app.appendChild(note);
+  }
 
   if (responses.length === 0) {
     const empty = document.createElement("div");
@@ -479,6 +563,14 @@ function renderSynthese(app) {
       render();
     }
   });
+  const refreshBtn = document.getElementById("refreshSync");
+  if (refreshBtn) {
+    refreshBtn.addEventListener("click", () => {
+      refreshBtn.textContent = "🔄 Chargement…";
+      refreshBtn.disabled = true;
+      syncFromSheet().finally(() => render());
+    });
+  }
 }
 
 function renderSyntheseForQuestionnaire(app, qid, allResponses) {

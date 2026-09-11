@@ -71,8 +71,22 @@ const QUESTIONNAIRES = [
         questions: [
           { id: "age_enfant", label: "Quel âge a votre enfant ?", type: "number" },
           { id: "sexe_enfant", label: "Sexe de l'enfant", type: "select", options: ["Garçon", "Fille", "Autre / ne souhaite pas répondre"] },
-          { id: "diagnostic", label: "Quel est son diagnostic ?", type: "select_other", options: ["TDAH", "TSA", "Dys (dyslexie, dyspraxie, dyscalculie...)", "HPI", "En cours de diagnostic", "Plusieurs diagnostics associés"] },
+          { id: "diagnostic", label: "Quel(s) trouble(s) concerne(nt) votre enfant ?", type: "checkbox", options: ["TDAH", "TSA", "Dys (dyslexie, dyspraxie, dyscalculie...)", "HPI", "En cours de diagnostic", "Autre"] },
           { id: "duree_situation", label: "Depuis combien de temps êtes-vous confronté à cette situation ?", type: "text" }
+        ]
+      },
+      {
+        title: "Fratrie (si plusieurs enfants concernés)",
+        questions: [
+          { id: "plusieurs_enfants_concernes", label: "Avez-vous plusieurs enfants concernés par un trouble du neurodéveloppement ?", type: "radio", options: ["Oui", "Non"] },
+          { id: "differences_parcours_fratrie", label: "Si oui, avez-vous constaté des différences dans leurs parcours respectifs (repérage, diagnostic, accompagnement) ?", type: "textarea" },
+          { id: "experience_premier_enfant", label: "Le fait d'avoir déjà vécu cette expérience avec un premier enfant a-t-il facilité (ou au contraire compliqué) le parcours avec le second ?", type: "textarea" }
+        ]
+      },
+      {
+        title: "Repérage",
+        questions: [
+          { id: "reperage_premiers_signes", label: "Comment avez-vous repéré les premiers signes ou symptômes chez votre enfant ?", type: "textarea" }
         ]
       },
       {
@@ -100,8 +114,19 @@ const QUESTIONNAIRES = [
         ]
       },
       {
+        title: "Antécédents familiaux",
+        questions: [
+          { id: "antecedents_familiaux", label: "Y a-t-il d'autres cas de troubles du neurodéveloppement dans votre famille (parents, fratrie, etc.) ?", type: "radio", options: ["Oui", "Non", "Je ne sais pas"] },
+          { id: "antecedents_suivis", label: "Si oui, ces personnes sont-elles suivies ou traitées ?", type: "textarea" }
+        ]
+      },
+      {
         title: "Vie familiale",
         questions: [
+          { id: "difficultes_avant_diagnostic", label: "Avant le diagnostic, quelles difficultés avez-vous rencontrées dans la vie familiale au quotidien ?", type: "textarea" },
+          { id: "difficultes_apres_diagnostic", label: "Et depuis le diagnostic, quelles difficultés persistent ou sont apparues ?", type: "textarea" },
+          { id: "impact_couple", label: "Ces difficultés ont-elles eu un impact sur votre couple ou sur les relations au sein de la famille ?", type: "textarea" },
+          { id: "vecu_pere_mere", label: "Comment chacun des parents a-t-il vécu cette période (annonce, découverte des symptômes) ?", type: "textarea" },
           { id: "plus_grand_stress", label: "Quelle est aujourd'hui votre plus grande source de stress ?", type: "textarea" },
           { id: "plus_grand_manque", label: "Qu'est-ce qui vous a le plus manqué depuis le début du parcours ?", type: "textarea" }
         ]
@@ -145,7 +170,24 @@ const QUESTIONNAIRES = [
         questions: [
           { id: "profil", label: "Quel est votre profil ?", type: "select_other", options: ["TDAH", "TSA / Autisme", "Dys (dyslexie, dyspraxie, dyscalculie...)", "HPI", "Plusieurs profils associés", "Non diagnostiqué mais en cours de questionnement"] },
           { id: "age_diagnostic", label: "À quel âge avez-vous été diagnostiqué ?", type: "number" },
-          { id: "attente_diagnostic", label: "Combien de temps avez-vous attendu avant d'obtenir une réponse ?", type: "text" }
+          { id: "attente_diagnostic", label: "Combien de temps avez-vous attendu avant d'obtenir une réponse ?", type: "text" },
+          { id: "declencheurs_diagnostic", label: "Quels ont été les éléments déclencheurs de votre démarche de diagnostic ?", type: "textarea" },
+          { id: "aide_prise_conscience", label: "Qui vous a aidé(e) à prendre conscience du trouble et/ou à entamer les démarches ?", type: "textarea" },
+          { id: "recherche_professionnel", label: "Comment avez-vous trouvé un professionnel compétent pour vous accompagner (médecin, psychiatre, etc.) ?", type: "textarea" },
+          { id: "accueil_annonce", label: "Comment avez-vous accueilli l'annonce du diagnostic ?", type: "textarea" }
+        ]
+      },
+      {
+        title: "Antécédents familiaux",
+        questions: [
+          { id: "antecedents_familiaux", label: "Savez-vous s'il y a d'autres cas de troubles du neurodéveloppement dans votre famille ?", type: "radio", options: ["Oui", "Non", "Je ne sais pas"] }
+        ]
+      },
+      {
+        title: "Enfance et scolarité",
+        questions: [
+          { id: "description_entourage_enfance", label: "Dans votre enfance, comment étiez-vous décrit(e) par votre entourage (famille, enseignants) ?", type: "textarea" },
+          { id: "deroulement_scolarite", label: "Comment s'est déroulée votre scolarité ?", type: "textarea" }
         ]
       },
       {
@@ -199,6 +241,13 @@ const QUESTIONNAIRES = [
         ]
       },
       {
+        title: "Votre connaissance du sujet",
+        questions: [
+          { id: "connaissances_neuroatypie", label: "Avez-vous des connaissances sur la neuroatypie, au-delà de ce que vous avez pu lire dans les médias ou sur internet ?", type: "radio", options: ["Oui, de bonnes connaissances", "Quelques connaissances de base", "Non, peu ou pas de connaissances"] },
+          { id: "deja_forme_sensibilise", label: "Avez-vous déjà été formé(e) ou sensibilisé(e) sur ce sujet ?", type: "radio", options: ["Oui", "Non"] }
+        ]
+      },
+      {
         title: "Organisation",
         questions: [
           { id: "taille_entreprise", label: "Taille de votre entreprise", type: "select", options: ["1 à 9 salariés", "10 à 49 salariés", "50 à 249 salariés", "250 à 999 salariés", "1 000 salariés et plus"] },
@@ -210,6 +259,14 @@ const QUESTIONNAIRES = [
         questions: [
           { id: "recrute_profils_na", label: "Recrutez-vous des profils neuroatypiques (déclarés ou non) ?", type: "radio", options: ["Oui, régulièrement", "Oui, occasionnellement", "Non, jamais", "Je ne sais pas"] },
           { id: "difficultes_recrutement", label: "Quelles difficultés rencontrez-vous dans ce domaine ?", type: "textarea" }
+        ]
+      },
+      {
+        title: "Repérage et valorisation des potentiels",
+        questions: [
+          { id: "identification_profils_na", label: "Savez-vous identifier les personnes neuroatypiques au sein de votre entreprise ?", type: "radio", options: ["Oui", "Non", "Pas facilement"] },
+          { id: "atouts_neuroatypie", label: "Selon vous, quels sont les atouts que peuvent apporter les personnes neuroatypiques en entreprise (par exemple : capacité à mener plusieurs tâches, créativité, idées innovantes) ?", type: "textarea" },
+          { id: "collaborateurs_conscients_atouts", label: "Vos collaborateurs neuroatypiques ont-ils, selon vous, conscience de leurs propres atouts ? Sont-ils encouragés à en parler et à les mettre en avant ?", type: "textarea" }
         ]
       },
       {
@@ -266,10 +323,42 @@ const QUESTIONNAIRES = [
         ]
       },
       {
+        title: "Sensibilité et spécialisation",
+        questions: [
+          { id: "sensibilite_neurodiversite", label: "Comment évalueriez-vous votre sensibilité et votre connaissance du sujet de la neurodiversité ?", type: "radio", options: ["Très bonne", "Bonne", "Moyenne", "Faible"] },
+          { id: "specialise_neurodiversite", label: "Êtes-vous spécialisé(e) dans ce domaine ?", type: "radio", options: ["Oui", "Non", "Partiellement"] }
+        ]
+      },
+      {
         title: "Capacité d'accueil",
         questions: [
           { id: "delai_attente", label: "Quel est votre délai moyen d'attente pour un nouveau patient ?", type: "select", options: ["Moins d'1 mois", "1 à 3 mois", "3 à 6 mois", "6 à 12 mois", "Plus de 12 mois"] },
           { id: "refus_patients", label: "Refusez-vous des patients faute de disponibilité ?", type: "radio", options: ["Oui, régulièrement", "Oui, parfois", "Non"] }
+        ]
+      },
+      {
+        title: "Organisation du cabinet",
+        questions: [
+          { id: "protocole_bilan", label: "Quel est votre protocole de bilan au sein de votre cabinet ?", type: "textarea" },
+          { id: "cout_bilan_patient", label: "Quel est le coût de ce bilan pour le patient ?", type: "text" },
+          { id: "reorientation_si_complet", label: "Lorsque vous ne pouvez pas prendre un(e) nouveau/nouvelle patient(e), vers qui ou vers quelle structure le/la réorientez-vous ?", type: "textarea" }
+        ]
+      },
+      {
+        title: "Suivi après diagnostic",
+        questions: [
+          { id: "suivi_propose", label: "Quel suivi proposez-vous après la pose du diagnostic ?", type: "textarea" },
+          { id: "frequence_suivi", label: "Revoyez-vous régulièrement vos patients après le diagnostic ? Si oui, à quelle fréquence ?", type: "text" },
+          { id: "accompagnement_parcours_complet", label: "Arrivez-vous à accompagner vos patients tout au long de leur parcours ?", type: "radio", options: ["Oui", "Non", "Partiellement"] },
+          { id: "coordination_specialites", label: "Avez-vous un bon niveau de coordination avec les autres spécialités sollicitées (orthophonistes, bilans complémentaires, accompagnement familial, programme Barkley, etc.) ?", type: "radio", options: ["Oui", "Non", "Partiellement"] },
+          { id: "transmission_ressources", label: "Transmettez-vous à vos patients des ressources ou lectures sur les avancées concernant la neurodiversité ?", type: "radio", options: ["Oui", "Non", "Parfois"] }
+        ]
+      },
+      {
+        title: "Accompagnement familial",
+        questions: [
+          { id: "accompagnement_fratrie", label: "Accompagnez-vous également le reste de la famille si besoin (frères, sœurs) ?", type: "radio", options: ["Oui", "Non", "Parfois"] },
+          { id: "diagnostic_parents", label: "Proposez-vous un diagnostic aux parents si cela semble pertinent ?", type: "radio", options: ["Oui", "Non", "Parfois"] }
         ]
       },
       {
@@ -280,10 +369,19 @@ const QUESTIONNAIRES = [
         ]
       },
       {
+        title: "Perception du diagnostic",
+        questions: [
+          { id: "perception_diagnostic", label: "Comment le diagnostic est-il le plus souvent perçu par les patients et leur entourage ?", type: "textarea" },
+          { id: "demandes_difficiles", label: "Quelles sont les demandes les plus fréquentes de vos patients auxquelles vous avez du mal à répondre ?", type: "textarea" }
+        ]
+      },
+      {
         title: "Partenariats",
         questions: [
+          { id: "besoin_structure_centralisee", label: "Pensez-vous qu'une structure centralisant l'ensemble de ces démarches (Maison de la neurodiversité) répondrait à un réel besoin ?", type: "radio", options: ["Oui, certainement", "Oui, peut-être", "Non", "Je ne sais pas"] },
           { id: "orienter_vers_maison", label: "Seriez-vous prêt à orienter vos patients vers une Maison de la Neurodiversité ?", type: "radio", options: ["Oui", "Non", "Peut-être"] },
-          { id: "conditions_partenariat", label: "Sous quelles conditions ?", type: "textarea" }
+          { id: "conditions_partenariat", label: "Sous quelles conditions ?", type: "textarea" },
+          { id: "prediagnostic_ia", label: "Pensez-vous qu'un pré-diagnostic réalisé par une IA, validé ensuite par des médecins, pourrait être une bonne piste pour accélérer les diagnostics et venir en aide à un plus grand nombre de personnes ?", type: "radio", options: ["Oui, tout à fait", "Oui, avec des réserves", "Non", "Je ne sais pas"] }
         ]
       },
       BIG5
