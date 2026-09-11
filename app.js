@@ -12,7 +12,7 @@ const SYNTHESE_AUTH_KEY = "nd_synthese_auth";
 // par l'URL de déploiement une fois le script Google configuré (voir
 // SETUP_GOOGLE_SHEETS.md). Tant qu'elle contient "REMPLACER", le site
 // continue de fonctionner uniquement en local (comme avant).
-const SYNC_URL = "REMPLACER_PAR_URL_APPS_SCRIPT";
+const SYNC_URL = "https://script.google.com/macros/s/AKfycbzVRPsBUMJ4vXoXuOYPpkQhMXYi25tJSNq86l50I075tU4_wqq8-oRxqChiQ9eZydhE/exec";
 
 function isSyncConfigured() {
   return typeof SYNC_URL === "string" && SYNC_URL && !SYNC_URL.includes("REMPLACER");
