@@ -55,18 +55,6 @@ const QUESTIONNAIRES = [
     color: "#3D8BFD",
     sections: [
       {
-        title: "À propos de vous",
-        questions: [
-          { id: "email", label: "Votre adresse e-mail (facultatif, pour vous tenir informé·e)", type: "email" },
-          { id: "parent_age", label: "Votre âge", type: "select", options: AGE_OPTIONS },
-          { id: "ville", label: "Votre ville de résidence", type: "text" },
-          { id: "csp", label: "Votre catégorie socio-professionnelle", type: "select_other", options: CSP_OPTIONS },
-          { id: "niveau_etude", label: "Votre niveau d'études", type: "select", options: NIVEAU_ETUDE_OPTIONS },
-          { id: "situation_familiale", label: "Votre situation familiale", type: "select_other", options: ["En couple", "Famille monoparentale", "Garde alternée"] },
-          { id: "nb_enfants", label: "Nombre d'enfants dans le foyer", type: "number" }
-        ]
-      },
-      {
         title: "Profil de l'enfant",
         questions: [
           { id: "age_enfant", label: "Quel âge a votre enfant ?", type: "number" },
@@ -79,22 +67,23 @@ const QUESTIONNAIRES = [
         title: "Fratrie (si plusieurs enfants concernés)",
         questions: [
           { id: "plusieurs_enfants_concernes", label: "Avez-vous plusieurs enfants concernés par un trouble du neurodéveloppement ?", type: "radio", options: ["Oui", "Non"] },
-          { id: "differences_parcours_fratrie", label: "Si oui, avez-vous constaté des différences dans leurs parcours respectifs (repérage, diagnostic, accompagnement) ?", type: "textarea" },
-          { id: "experience_premier_enfant", label: "Le fait d'avoir déjà vécu cette expérience avec un premier enfant a-t-il facilité (ou au contraire compliqué) le parcours avec le second ?", type: "textarea" }
+          { id: "differences_parcours_fratrie", label: "Si oui, leurs parcours ont-ils été différents (repérage, diagnostic, accompagnement) ?", type: "textarea" },
+          { id: "experience_premier_enfant", label: "Avoir déjà un premier enfant concerné a-t-il facilité ou compliqué le parcours du second ?", type: "textarea" },
+          { id: "frein_autres_enfants", label: "Avoir un premier enfant neuroatypique a-t-il été un frein pour avoir d'autre(s) enfant(s) ?", type: "radio", options: ["Oui", "Non", "En partie", "Non concerné"] }
         ]
       },
       {
         title: "Repérage",
         questions: [
-          { id: "reperage_premiers_signes", label: "Comment avez-vous repéré les premiers signes ou symptômes chez votre enfant ?", type: "textarea" }
+          { id: "reperage_premiers_signes", label: "Quels premiers signes vous ont alerté d'un développement différent ?", type: "textarea" }
         ]
       },
       {
         title: "Diagnostic",
         questions: [
-          { id: "duree_diagnostic", label: "Combien de temps a-t-il fallu pour obtenir un diagnostic ?", type: "text" },
-          { id: "difficultes_diagnostic", label: "Quelles ont été les principales difficultés rencontrées pour obtenir ce diagnostic ?", type: "textarea" },
-          { id: "cout_diagnostic", label: "Quel a été le coût total approximatif du diagnostic ?", type: "text" }
+          { id: "duree_diagnostic", label: "Quel délai pour obtenir un diagnostic ? Qu'en pensez-vous ?", type: "textarea" },
+          { id: "difficultes_diagnostic", label: "Quelles ont été les principales difficultés pour obtenir ce diagnostic ?", type: "textarea" },
+          { id: "cout_diagnostic", label: "Quel coût financier pour obtenir ce diagnostic ?", type: "text" }
         ]
       },
       {
@@ -106,29 +95,29 @@ const QUESTIONNAIRES = [
         ]
       },
       {
-        title: "École",
-        questions: [
-          { id: "ecole_comprehension", label: "L'école comprend-elle les besoins de votre enfant ?", type: "radio", options: ["Très bien", "Plutôt bien", "Plutôt mal", "Pas du tout", "Ne se prononce pas (pas encore scolarisé)"] },
-          { id: "difficultes_education_nationale", label: "Avez-vous rencontré des difficultés avec l'Éducation nationale ? Lesquelles ?", type: "textarea" },
-          { id: "aides_utiles_ecole", label: "Quelles aides auraient été les plus utiles à l'école ?", type: "textarea" }
-        ]
-      },
-      {
         title: "Antécédents familiaux",
         questions: [
-          { id: "antecedents_familiaux", label: "Y a-t-il d'autres cas de troubles du neurodéveloppement dans votre famille (parents, fratrie, etc.) ?", type: "radio", options: ["Oui", "Non", "Je ne sais pas"] },
+          { id: "antecedents_familiaux", label: "Y a-t-il d'autres cas de troubles du neurodéveloppement dans votre famille ?", type: "radio", options: ["Oui", "Non", "Je ne sais pas"] },
           { id: "antecedents_suivis", label: "Si oui, ces personnes sont-elles suivies ou traitées ?", type: "textarea" }
         ]
       },
       {
         title: "Vie familiale",
         questions: [
-          { id: "difficultes_avant_diagnostic", label: "Avant le diagnostic, quelles difficultés avez-vous rencontrées dans la vie familiale au quotidien ?", type: "textarea" },
-          { id: "difficultes_apres_diagnostic", label: "Et depuis le diagnostic, quelles difficultés persistent ou sont apparues ?", type: "textarea" },
-          { id: "impact_couple", label: "Ces difficultés ont-elles eu un impact sur votre couple ou sur les relations au sein de la famille ?", type: "textarea" },
-          { id: "vecu_pere_mere", label: "Comment chacun des parents a-t-il vécu cette période (annonce, découverte des symptômes) ?", type: "textarea" },
+          { id: "difficultes_avant_diagnostic", label: "Avant le diagnostic, quelles difficultés avez-vous rencontrées au quotidien ?", type: "textarea" },
+          { id: "difficultes_apres_diagnostic", label: "Depuis le diagnostic, quelles difficultés persistent ou sont apparues ?", type: "textarea" },
+          { id: "impact_couple", label: "Ces difficultés ont-elles eu un impact sur votre couple ou votre famille ?", type: "textarea" },
+          { id: "vecu_pere_mere", label: "Vous, en tant que parent, comment avez-vous vécu cette période (annonce, découverte des symptômes) ?", type: "textarea" },
           { id: "plus_grand_stress", label: "Quelle est aujourd'hui votre plus grande source de stress ?", type: "textarea" },
-          { id: "plus_grand_manque", label: "Qu'est-ce qui vous a le plus manqué depuis le début du parcours ?", type: "textarea" }
+          { id: "plus_grand_manque", label: "Qu'est-ce qui vous a le plus manqué depuis le début ?", type: "textarea" }
+        ]
+      },
+      {
+        title: "École",
+        questions: [
+          { id: "ecole_comprehension", label: "L'école comprend-elle les besoins de votre enfant ?", type: "radio", options: ["Très bien", "Plutôt bien", "Plutôt mal", "Pas du tout", "Ne se prononce pas (pas encore scolarisé)"] },
+          { id: "difficultes_education_nationale", label: "Avez-vous rencontré des difficultés avec l'Éducation Nationale ? Lesquelles ?", type: "textarea" },
+          { id: "aides_utiles_ecole", label: "Quels types d'aides auraient été les plus utiles à l'école ?", type: "textarea" }
         ]
       },
       {
@@ -140,7 +129,21 @@ const QUESTIONNAIRES = [
           { id: "montant_abonnement", label: "Si oui, combien par mois ?", type: "radio", options: ["10 €", "25 €", "50 €", "100 € et plus", "Non concerné"] }
         ]
       },
-      BIG5
+      BIG5,
+      {
+        title: "Pour finir, quelques mots sur vous",
+        intro: "Ces informations nous aident à comprendre qui a répondu et à adapter la Maison de la Neurodiversité aux besoins de chaque territoire et de chaque famille.",
+        questions: [
+          { id: "lien_enfant", label: "Vous êtes", type: "select_other", options: ["La mère", "Le père", "La belle-mère", "Le beau-père"] },
+          { id: "parent_age", label: "Votre âge", type: "select", options: AGE_OPTIONS },
+          { id: "situation_familiale", label: "Votre situation familiale", type: "select_other", options: ["En couple", "Famille monoparentale", "Garde alternée"] },
+          { id: "nb_enfants", label: "Nombre d'enfants dans le foyer", type: "number" },
+          { id: "ville", label: "Votre ville de résidence", type: "text" },
+          { id: "csp", label: "Votre catégorie socio-professionnelle", type: "select_other", options: CSP_OPTIONS },
+          { id: "niveau_etude", label: "Votre niveau d'études", type: "select", options: NIVEAU_ETUDE_OPTIONS },
+          { id: "email", label: "Votre adresse e-mail (facultatif, pour être informé·e des résultats et de l'avancement du projet)", type: "email" }
+        ]
+      }
     ]
   },
 

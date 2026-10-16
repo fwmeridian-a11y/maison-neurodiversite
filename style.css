@@ -121,6 +121,12 @@ header.topbar h1 {
   padding-bottom: 10px;
 }
 
+.section-intro {
+  margin: -6px 0 16px;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
 .field {
   margin-bottom: 18px;
 }

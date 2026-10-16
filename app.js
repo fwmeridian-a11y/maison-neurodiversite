@@ -239,6 +239,13 @@ function renderForm(app, qid) {
     h3.textContent = section.title;
     sectionEl.appendChild(h3);
 
+    if (section.intro) {
+      const intro = document.createElement("p");
+      intro.className = "section-intro";
+      intro.textContent = section.intro;
+      sectionEl.appendChild(intro);
+    }
+
     section.questions.forEach((question) => {
       sectionEl.appendChild(renderField(question, qDef.color));
     });
