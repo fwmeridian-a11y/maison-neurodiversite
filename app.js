@@ -170,6 +170,18 @@ function renderHome(app) {
   `;
   app.appendChild(header);
 
+  const presentation = document.createElement("section");
+  presentation.className = "section presentation";
+  presentation.innerHTML = `
+    <h3>Le projet</h3>
+    <p>La <strong>Maison de la Neurodiversité</strong> est un projet né à Paris qui veut réunir, en un seul lieu et sous une seule marque, tout le parcours des personnes neuroatypiques (TDAH, troubles « dys », TSA, HPI...) et de leurs proches : repérage et dépistage, orientation médicale, coaching, communauté, accompagnement des familles, et un volet entreprises pour le recrutement et la formation.</p>
+    <p>Aujourd'hui, les troubles du neurodéveloppement concernent 15 à 20&nbsp;% de la population, mais les solutions restent éclatées et les délais d'attente très longs.</p>
+    <h3>Pourquoi ce questionnaire ?</h3>
+    <p>Avant de construire ces services, nous voulons écouter celles et ceux qui vivent ces situations au quotidien : parents, adultes concernés, employeurs, professionnels de santé et associations. Vos réponses nous aideront à comprendre votre parcours, vos difficultés et vos besoins réels, pour concevoir une offre réellement utile.</p>
+    <p>Comptez environ 10 à 15 minutes. Toutes les questions sont facultatives et vos réponses sont utilisées uniquement dans le cadre de cette étude. Merci pour votre temps et votre confiance.</p>
+  `;
+  app.appendChild(presentation);
+
   const intro = document.createElement("p");
   intro.style.color = "var(--muted)";
   intro.style.marginBottom = "4px";
