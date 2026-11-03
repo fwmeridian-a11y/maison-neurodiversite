@@ -358,3 +358,12 @@ details.raw-answers summary {
   font-weight: 600;
   margin: 4px 0 10px;
 }
+
+.presentation p {
+  margin: 0 0 12px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+.presentation h3 + p { margin-top: 0; }
+.presentation p:last-child { margin-bottom: 0; }
+.presentation h3:not(:first-child) { margin-top: 20px; }
